@@ -17,6 +17,8 @@ body {
     font-weight: 700;
     background-color: var(--background-color);
     min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
 }
 
 .container {
@@ -164,19 +166,14 @@ h1 {
 
 /* Background Elements */
 .decorative-elements {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
-    overflow: visible;
-    pointer-events: none;
-    z-index: -1;
+    min-height: 100vh;
 }
 
 /* Clock decoration */
-.decorative-elements .uhr {
-    position: absolute;
+.uhr {
+    position: fixed;
     width: 487.95px;
     height: 379.52px;
     left: -99.09px;
@@ -184,11 +181,13 @@ h1 {
     opacity: 0.2;
     transform: rotate(-33.747deg);
     background: url('img/uhr.png') center/contain no-repeat;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Sun decoration */
-.decorative-elements .sonne {
-    position: absolute;
+.sonne {
+    position: fixed;
     width: 341.75px;
     height: 265.81px;
     right: -145px;
@@ -196,11 +195,13 @@ h1 {
     opacity: 0.2;
     transform: rotate(36.337deg);
     background: url('img/sonne.png') center/contain no-repeat;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Bike decoration */
-.decorative-elements .velo {
-    position: absolute;
+.velo {
+    position: fixed;
     width: 526.64px;
     height: 409.61px;
     right: 83px;
@@ -208,17 +209,21 @@ h1 {
     opacity: 0.2;
     transform: rotate(21.402deg);
     background: url('img/velo.png') center/contain no-repeat;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Road decoration */
-.decorative-elements .strasse {
-    position: absolute;
+.strasse {
+    position: fixed;
     width: 2296px;
     height: 1786px;
     left: -311px;
     top: 2770px;
     opacity: 0.2;
     background: url('img/strasse.png') center/cover no-repeat;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* White background section */
