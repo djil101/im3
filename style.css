@@ -164,61 +164,87 @@ h1 {
 
 /* Background Elements */
 .decorative-elements {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
     pointer-events: none;
     z-index: -1;
 }
 
-.uhr {
+/* City Background */
+.hero::before {
+    content: '';
     position: absolute;
-    width: 488px;
-    height: 380px;
-    left: -99px;
-    top: 1089px;
-    background-image: url('assets/uhr.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    opacity: 0.2;
-    transform: rotate(-33.747deg);
-}
-
-.sonne {
-    position: absolute;
-    width: 342px;
-    height: 266px;
-    right: -100px;
-    top: 2975px;
-    background-image: url('assets/strasse.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    opacity: 0.2;
-    transform: rotate(36.337deg);
-}
-
-.velo {
-    position: absolute;
-    width: 527px;
-    height: 410px;
-    right: 83px;
-    top: 1679px;
-    background-image: url('assets/velo.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    opacity: 0.2;
-    transform: rotate(21.402deg);
-}
-
-.strasse {
-    position: absolute;
-    bottom: 0;
-    left: -311px;
-    width: 2296px;
-    height: 1786px;
-    background-image: url('assets/road.png');
+    width: 1956px;
+    height: 1117px;
+    left: -197px;
+    top: 0;
+    background-image: url('img/hintergrund_velometer.jpg');
     background-size: cover;
     background-position: center;
     opacity: 0.2;
+    z-index: -1;
+}
+
+/* White background section */
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 1728px;
+    height: 2798px;
+    left: 0;
+    top: 1117px;
+    background: white;
+    opacity: 0.2;
+    z-index: -1;
+}
+
+/* Clock decoration */
+.uhr {
+    position: absolute;
+    width: 487.95px;
+    height: 379.52px;
+    left: -99.09px;
+    top: 1089.16px;
+    opacity: 0.2;
+    transform: rotate(-33.747deg);
+    background: url('img/uhr.png') center/contain no-repeat;
+}
+
+/* Sun decoration */
+.sonne {
+    position: absolute;
+    width: 341.75px;
+    height: 265.81px;
+    right: -145px;
+    top: 2975px;
+    opacity: 0.2;
+    transform: rotate(36.337deg);
+    background: url('img/sonne.png') center/contain no-repeat;
+}
+
+/* Bike decoration */
+.velo {
+    position: absolute;
+    width: 526.64px;
+    height: 409.61px;
+    right: 83px;
+    top: 1679px;
+    opacity: 0.2;
+    transform: rotate(21.402deg);
+    background: url('img/velo.png') center/contain no-repeat;
+}
+
+/* Road decoration */
+.strasse {
+    position: absolute;
+    width: 2296px;
+    height: 1786px;
+    left: -311px;
+    top: 2770px;
+    opacity: 0.2;
+    background: url('img/strasse.png') center/cover no-repeat;
 }
 
 @media (max-width: 1200px) {
