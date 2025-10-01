@@ -230,35 +230,39 @@ h1 {
 .bg-top {
     position: absolute;
     top: 0;
-    left: -448px;
+    left: -475px;
     width: 2506px;
     height: 1432px;
-    opacity: 0.2;
+    opacity: 0.1;
     object-fit: cover;
 }
 
 .bg-bottom {
     position: absolute;
-    top: 2235px;
+    top: 3000px;
     left: -312px;
     width: 2296px;
-    height: 1786px;
-    opacity: 0.2;
+    height: 575px;
+    opacity: 0.1;
     object-fit: cover;
 }
 
 .clock {
     position: absolute;
-    top: 1182px;
-    left: -56px;
+    top: 1250px;
+    left: 20px;
+    width: 500px;
+    height: 375px;
     transform: rotate(-33.747deg);
-    opacity: 0.2;
+    opacity: 0.1;
 }
 
 .bike {
     position: absolute;
-    top: 1236px;
-    right: -100px;
+    top: 1250px;
+    right: 20px;
+    width: 500px;
+    height: 375px;
     transform: rotate(21.402deg);
     opacity: 0.2;
 }
