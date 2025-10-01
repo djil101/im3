@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velometer Bahnhofplatz</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="../img/chur.png" alt="Chur Wappen" class="logo">
+            <h1>Velometer<br>Bahnhofplatz</h1>
+        </header>
+
+        <main>
+            <section class="velos-available">
+                <h2>Velos jetzt verfügbar:</h2>
+                <div class="counter">0</div>
+            </section>
+
+            <section class="statistics">
+                <h2>Wie viele Velos hat es üblicherweise?</h2>
+                <div class="dropdown">
+                    <button class="dropdown-button">
+                        Wochentage
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                </div>
+                
+                <div class="graph-container">
+                    <div class="graph">
+                        <!-- Graph will be implemented with JavaScript -->
+                        <div class="y-axis">
+                            <span>9</span>
+                            <span>1</span>
+                        </div>
+                        <div class="x-axis">
+                            <span>0:00</span>
+                            <span>06:00</span>
+                            <span>12:00</span>
+                            <span>18:00</span>
+                            <span>23:00</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="best-time">
+                <h2>Heute der beste Zeitraum,<br>um ein Velo zu ergattern:</h2>
+                <div class="time-box">
+                    22:00 - 06:00 / 14:00 - 16:00
+                </div>
+            </section>
+        </main>
+
+        <div class="background-images">
+            <img src="../img/hintergrund_velometer.jpg" alt="" class="bg-top">
+            <img src="../img/strasse.png" alt="" class="bg-bottom">
+            <img src="../img/uhr.png" alt="" class="clock">
+            <img src="../img/velo.png" alt="" class="bike">
+        </div>
+    </div>
+</body>
+</html>

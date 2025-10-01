@@ -1,0 +1,223 @@
+:root {
+    --accent-color: #FBD9AD;
+    --error-color: #FF4F4F;
+    --graph-color: #6FC3C5;
+    --text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Josefin Slab', serif;
+    font-weight: 700;
+    background-color: #E6E6E6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 1728px;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    padding: 47px 0;
+    position: relative;
+}
+
+.logo {
+    width: 106px;
+    height: 111px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 96px;
+    text-align: center;
+    text-shadow: var(--text-shadow);
+    line-height: 100px;
+}
+
+/* Available Bikes Section */
+.velos-available {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 200px;
+}
+
+.velos-available h2 {
+    font-size: 64px;
+    text-shadow: var(--text-shadow);
+}
+
+.counter {
+    background-color: var(--error-color);
+    color: white;
+    width: 76px;
+    height: 104px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    text-shadow: 4px 5px 2px rgba(0, 0, 0, 0.42);
+}
+
+/* Statistics Section */
+.statistics {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.statistics h2 {
+    font-size: 96px;
+    text-shadow: var(--text-shadow);
+    margin-bottom: 50px;
+}
+
+.dropdown {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.dropdown-button {
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 20px;
+    padding: 20px 75px;
+    font-family: 'Josefin Slab', serif;
+    font-weight: 700;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    min-width: 523px;
+    justify-content: center;
+}
+
+.dropdown-arrow {
+    font-size: 24px;
+}
+
+/* Graph Container */
+.graph-container {
+    margin: 50px auto;
+    width: 100%;
+    max-width: 1172px;
+    height: 959px;
+    position: relative;
+}
+
+.graph {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    position: relative;
+    padding: 40px;
+}
+
+.y-axis {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 40px;
+    text-shadow: var(--text-shadow);
+}
+
+.x-axis {
+    position: absolute;
+    bottom: -60px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 40px;
+    text-shadow: var(--text-shadow);
+}
+
+/* Best Time Section */
+.best-time {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 0 200px;
+}
+
+.best-time h2 {
+    font-size: 64px;
+    text-shadow: var(--text-shadow);
+    line-height: 100px;
+}
+
+.time-box {
+    background-color: var(--accent-color);
+    border-radius: 30px;
+    padding: 40px;
+    font-size: 64px;
+    text-shadow: var(--text-shadow);
+    text-align: center;
+    min-width: 468px;
+}
+
+/* Background Images */
+.background-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.bg-top {
+    position: absolute;
+    top: 0;
+    left: -448px;
+    width: 2506px;
+    height: 1432px;
+    opacity: 0.2;
+    object-fit: cover;
+}
+
+.bg-bottom {
+    position: absolute;
+    top: 2235px;
+    left: -312px;
+    width: 2296px;
+    height: 1786px;
+    opacity: 0.2;
+    object-fit: cover;
+}
+
+.clock {
+    position: absolute;
+    top: 1182px;
+    left: -56px;
+    transform: rotate(-33.747deg);
+    opacity: 0.2;
+}
+
+.bike {
+    position: absolute;
+    top: 1236px;
+    right: -100px;
+    transform: rotate(21.402deg);
+    opacity: 0.2;
+}
