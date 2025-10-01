@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PHP mit API-Daten</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>API-Daten</h1>
+
+    <div id="output"></div>
+
+    <!-- Abfrage eines Datensatzes mit id -->
+    <form method="POST" action="" id="idSearch">
+      <input type="text" name="id" id="searchid" placeholder="id (Zahl)" />
+      <button type="submit" id="idSearchBtn">Datensatz mit "id" finden</button>
+    </form>
+
+    <!-- Abfrage aller Datensätze, die den String $string in firstname, lastname oder email enthalten -->
+    <form method="POST" action="" id="stringSearch">
+      <input type="text" name="string" id="searchString" placeholder="Suchbegriff (Zeichenkette)" />
+      <button type="submit" id="stringSearchBtn">Search</button>
+    </form>
+
+    <!-- Einfügen eines neuen Datensatzes -->
+    <form method="POST" action="" id="insert">
+      <!-- Todo: alle Formularelemente des Formulars deaktivieren -->
+      <input type="text" name="firstname" placeholder="firstname (Zeichenkette)" disabled />
+      <input type="text" name="lastname" placeholder="lastname (Zeichenkette)" disabled />
+      <input type="email" name="email" placeholder="email (Zeichenkette)" disabled />
+      <button type="submit" name="insert" disabled>Insert</button>
+    </form>
+
+    <script src="script.js"></script>
+  </body>
+</html>

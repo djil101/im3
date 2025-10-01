@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!-- =========================================================================
+     HANDLUNGSANWEISUNG (index.html)
+     1) Setze <meta charset="UTF-8"> für korrekte Zeichencodierung.
+     2) Lade benötigte Libs (z. B. Chart.js) per <script src="..."></script>.
+     3) Strukturiere Seite (Überschrift, Beschreibung).
+     4) Definiere <canvas id="temperatureChart"> als Ziel für das Diagramm.
+     5) Binde dein Frontend-Skript (script.js bzw. 550_script.js) am Ende des <body> ein.
+     6) Achte darauf, dass die API-URL im JS zum richtigen Endpoint zeigt.
+     7) Halte das HTML präsentationsarm – Logik & Styling in JS/CSS.
+     8) Für Produktion: Minifizierung/Caching-Header/Integrity-Attribute erwägen.
+     ========================================================================= -->
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stadttemperaturen</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <h1>Temperaturen aller 3 Städte</h1>
+    <p>Verwendet neuen API-Endpunkt 550 mit Limit-Funktion (Funktion aktuell nicht genutzt)</p>
+    <canvas id="temperatureChart"></canvas>
+    <script src="script.js"></script>
+  </body>
+</html>

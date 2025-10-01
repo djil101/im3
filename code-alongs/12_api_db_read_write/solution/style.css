@@ -1,0 +1,88 @@
+/* Grundlegende Einstellungen */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f0f0;
+  color: #333;
+} 
+
+h1, h2 {
+  color: #333;
+}
+ 
+/* Formulare und Eingabefelder */
+
+form {
+  margin-top: 30px;
+}
+
+input[type="text"], input[type="email"], input[type="number"], button {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: block;
+  width: 300px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Button disabled Zustand */
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+
+
+/* Links */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Abschnitte und Abstand */
+h1, h2 {
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+p {
+  line-height: 1.6;
+}
+
+/* Tabellen */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
