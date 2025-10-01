@@ -88,8 +88,13 @@ h1 {
 
 .dropdown {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 50px;
+    position: relative;
+    width: 523px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .dropdown-button {
@@ -104,8 +109,44 @@ h1 {
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    min-width: 523px;
+    width: 100%;
     justify-content: center;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background-color: var(--accent-color);
+    border-radius: 20px;
+    margin-top: 10px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 20px 75px;
+    text-decoration: none;
+    display: block;
+    font-size: 32px;
+    text-align: center;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-content a:first-child {
+    border-radius: 20px 20px 0 0;
+}
+
+.dropdown-content a:last-child {
+    border-radius: 0 0 20px 20px;
+}
+
+.show {
+    display: block;
 }
 
 .dropdown-arrow {

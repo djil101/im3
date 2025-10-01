@@ -23,10 +23,19 @@
             <section class="statistics">
                 <h2>Wie viele Velos hat es üblicherweise?</h2>
                 <div class="dropdown">
-                    <button class="dropdown-button">
+                    <button onclick="toggleDropdown()" class="dropdown-button">
                         Wochentage
                         <span class="dropdown-arrow">▼</span>
                     </button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="#" onclick="selectDay(event, 'Montag')">Montag</a>
+                        <a href="#" onclick="selectDay(event, 'Dienstag')">Dienstag</a>
+                        <a href="#" onclick="selectDay(event, 'Mittwoch')">Mittwoch</a>
+                        <a href="#" onclick="selectDay(event, 'Donnerstag')">Donnerstag</a>
+                        <a href="#" onclick="selectDay(event, 'Freitag')">Freitag</a>
+                        <a href="#" onclick="selectDay(event, 'Samstag')">Samstag</a>
+                        <a href="#" onclick="selectDay(event, 'Sonntag')">Sonntag</a>
+                    </div>
                 </div>
                 
                 <div class="graph-container">
@@ -62,5 +71,35 @@
             <img src="../img/velo.png" alt="" class="bike">
         </div>
     </div>
+
+    <script>
+        function toggleDropdown() {
+            document.getElementById("myDropdown").classList.toggle("show");
+            
+            // Rotate arrow when dropdown is opened/closed
+            const arrow = document.querySelector('.dropdown-arrow');
+            arrow.style.transform = arrow.style.transform === 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        function selectDay(event, day) {
+            event.preventDefault();
+            const button = document.querySelector('.dropdown-button');
+            button.firstChild.textContent = day;
+            toggleDropdown();
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-button') && !event.target.matches('.dropdown-arrow')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let dropdown of dropdowns) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                        document.querySelector('.dropdown-arrow').style.transform = 'rotate(0deg)';
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>
