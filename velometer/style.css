@@ -134,7 +134,7 @@ h1 {
 }
 
 .dropdown-content a:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(111, 195, 197, 100);
 }
 
 .dropdown-content a:first-child {
@@ -197,7 +197,7 @@ h1 {
     display: flex;
     align-items: center;
     gap: 40px;
-    padding: 0 200px;
+    padding: 100px;
 }
 
 .best-time h2 {
@@ -209,7 +209,7 @@ h1 {
 .time-box {
     background-color: var(--accent-color);
     border-radius: 30px;
-    padding: 40px;
+    padding: 35px 35px 35px 35px;
     font-size: 64px;
     text-shadow: var(--text-shadow);
     text-align: center;
@@ -239,10 +239,10 @@ h1 {
 
 .bg-bottom {
     position: absolute;
-    top: 3000px;
+    top: 2900px;
     left: -312px;
     width: 2296px;
-    height: 575px;
+    height: 500px;
     opacity: 0.1;
     object-fit: cover;
 }
