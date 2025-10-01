@@ -14,7 +14,7 @@
 body {
     font-family: 'Josefin Slab', serif;
     font-weight: 700;
-    background-color: #E6E6E6;
+    background-color: #ffffff00;
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -195,6 +195,7 @@ h1 {
 .best-time {
     margin-top: 100px;
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 40px;
     padding: 100px;
@@ -233,7 +234,7 @@ h1 {
     left: -475px;
     width: 2506px;
     height: 1432px;
-    opacity: 0.1;
+    opacity: 0.2;
     object-fit: cover;
 }
 
@@ -243,7 +244,7 @@ h1 {
     left: -312px;
     width: 2296px;
     height: 500px;
-    opacity: 0.1;
+    opacity: 0.2;
     object-fit: cover;
 }
 
@@ -254,7 +255,7 @@ h1 {
     width: 500px;
     height: 375px;
     transform: rotate(-33.747deg);
-    opacity: 0.1;
+    opacity: 0.2;
 }
 
 .bike {
