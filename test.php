@@ -28,6 +28,25 @@ if ($note >= 4) {
     echo "Du hesch nöd bestange :(";
 }
 
+// Arrays
+$banane = ["mama banane", "papa banane", "kind banane"];
+echo "<pre>";
+print_r($banane[2]);
+echo "</pre>";
+
+foreach ($banane as $item) {
+    echo $item . "<br>";
+}
+
+// Assoziative Arrays
+$standorte = [
+    "chur" => 15.4,
+    "zürich" => 20.1,
+    "bern" => 18.3
+];
+
+
+
 ?>
 
 <h1>hallo <?php echo $name; ?></h1>
