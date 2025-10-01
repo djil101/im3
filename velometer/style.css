@@ -133,6 +133,10 @@ h1 {
     text-align: center;
 }
 
+.dropdown-content a.selected {
+    color: var(--error-color);
+}
+
 .dropdown-content a:hover {
     background-color: rgba(111, 195, 197, 100);
 }
