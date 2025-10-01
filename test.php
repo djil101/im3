@@ -41,9 +41,16 @@ foreach ($banane as $item) {
 // Assoziative Arrays
 $standorte = [
     "chur" => 15.4,
-    "zürich" => 20.1,
+    "zuerich" => 20.1,
     "bern" => 18.3
 ];
+echo "<pre>";
+print_r($standorte["zuerich"]);
+echo "</pre>";
+
+foreach ($standorte as $ort => $temperatur) {
+    echo $ort . "/" . $temperatur . "<br>";
+}
 
 
 
