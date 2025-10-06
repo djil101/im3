@@ -18,11 +18,13 @@
 // Bindet das Skript extract.php für Rohdaten ein und speichere es in $data
 $data = include('extract.php');
 
+print_r($data);
+
 // Definiert eine Zuordnung von Koordinaten zu Stadtnamen
 $locationsMap = [
-    '46.94,7.44' => 'Bern',
-    '46.84,9.52' => 'Chur',
-    '47.36,8.559999' => 'Zürich',
+    '46.853461,9.530477' => 'Bahnhofplatz',
+    '46.858458,9.506621' => 'Obere Au',
+    '46.8636, 9.53846' => 'Kantonsspital',
 ];
 
 // Funktion, um Fahrenheit in Celsius umzurechnen

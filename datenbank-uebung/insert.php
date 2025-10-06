@@ -1,9 +1,10 @@
 <?php
 
 $data = [
-    'firstname' => 'Jessica',
-    'lastname' => 'Fisher',
-    'email' => 'jessica.fisher@gmail.com'
+    'date' => '2025-10-06',
+    'station_name' => 'Bahnhofplatz',
+    'bike_racks' => 16,
+    'bike_available_to_rent' => 5
 ];
 
 require_once 'config.php'; // Bindet die Datenbankkonfiguration ein
@@ -13,7 +14,7 @@ try {
     $pdo = new PDO($dsn, $username, $password, $options);
 
     // SQL-Query mit Platzhaltern für das Einfügen von Daten
-    $sql = "INSERT INTO User (firstname, lastname, email) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO velometer (date, station_name, bike_racks, bike_available_to_rent) VALUES (?, ?, ?, ?)";
 
     // Bereitet die SQL-Anweisung vor
     $stmt = $pdo->prepare($sql);

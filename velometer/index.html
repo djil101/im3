@@ -13,9 +13,14 @@
             <img src="../img/chur.png" alt="Chur Wappen" class="logo">
             <div class="location-dropdown">
                 <button onclick="toggleLocationDropdown()" class="location-dropdown-button">
-                    <h1>Velometer<br>Bahnhofplatz</h1>
-                    <span class="dropdown-arrow rotate-180">▼</span>
+                    <h1>Velometer<br><span class="location-text">Bahnhofplatz</span></h1>
+                    <span class="dropdown-arrow">▼</span>
                 </button>
+                <div id="locationDropdown" class="location-dropdown-content">
+                    <a href="#" onclick="selectLocation(event, 'Bahnhofplatz')" class="location-option selected">Bahnhofplatz</a>
+                    <a href="#" onclick="selectLocation(event, 'Obere Au')" class="location-option">Obere Au</a>
+                    <a href="#" onclick="selectLocation(event, 'Kantonsspital')" class="location-option">Kantonsspital</a>
+                </div>
             </div>
         </div>
 
@@ -26,7 +31,7 @@
                 <div class="counter">0</div>
             </section>
             
-            <div class="scroll-indicator">
+                        <div class="scroll-indicator" onclick="scrollToStatistics()" style="cursor: pointer">
                 <div class="arrow-down">▼</div>
             </div><br><br><br><br><br><br>
 
@@ -52,36 +57,34 @@
                 <br><br><br><br><br>
 
 
-                <div class="graph-container">
-                    <div class="graph">
-                        <div class="y-axis">
-                            <span>9</span>
-                            <span>1</span>
-                        </div>
-                        <div class="graph-content">
-                            <svg class="graph-line" viewBox="0 0 1000 400" preserveAspectRatio="none">
-                                <!-- Graph path will be added by JavaScript -->
-                            </svg>
-                        </div>
-                        <div class="x-axis">
-                            <span>0:00</span>
-                            <span>06:00</span>
-                            <span>12:00</span>
-                            <span>18:00</span>
-                            <span>23:00</span>
+                <div class="statistics-container">
+                    <div class="graph-container">
+                        <div class="graph">
+                            <div class="y-axis">
+                                <span>9</span>
+                                <span>1</span>
+                            </div>
+                            <div class="graph-content">
+                                <svg class="graph-line" viewBox="0 0 1000 400" preserveAspectRatio="none">
+                                    <!-- Graph path will be added by JavaScript -->
+                                </svg>
+                            </div>
+                            <div class="x-axis">
+                                <span>0:00</span>
+                                <span>06:00</span>
+                                <span>12:00</span>
+                                <span>18:00</span>
+                                <span>23:00</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
 
-
-            
-
-
-            <section class="best-time">
-                <h2>Heute der beste Zeitraum,<br>um ein Velo zu ergattern:</h2>
-                <div class="time-box">
-                    22:00 - 06:00 /<br> 14:00 - 16:00
+                    <section class="best-time">
+                        <h2>Heute der beste Zeitraum,<br>um ein Velo zu ergattern:</h2>
+                        <div class="time-box">
+                            22:00 - 06:00 /<br> 14:00 - 16:00
+                        </div>
+                    </section>
                 </div>
             </section>
         </main>
@@ -95,10 +98,35 @@
     </div>
 
     <script>
+        function scrollToStatistics() {
+            const statistics = document.querySelector('.statistics');
+            const topOffset = statistics.getBoundingClientRect().top + window.pageYOffset - 50;
+            window.scrollTo({
+                top: topOffset,
+                behavior: 'smooth'
+            });
+        }
+
         function toggleLocationDropdown() {
-            document.querySelector('.location-dropdown-button').classList.toggle('active');
+            document.getElementById('locationDropdown').classList.toggle('show');
             const arrow = document.querySelector('.location-dropdown-button .dropdown-arrow');
-            arrow.style.transform = arrow.style.transform === 'rotate(0deg)' ? 'rotate(180deg)' : 'rotate(0deg)';
+            arrow.style.transform = arrow.style.transform === 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        function selectLocation(event, location) {
+            event.preventDefault();
+            // Remove selected class from all location options
+            document.querySelectorAll('.location-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            // Add selected class to clicked option
+            event.target.classList.add('selected');
+            // Update the location text
+            document.querySelector('.location-text').textContent = location;
+            // Close the dropdown
+            document.getElementById('locationDropdown').classList.remove('show');
+            // Reset arrow
+            document.querySelector('.location-dropdown-button .dropdown-arrow').style.transform = 'rotate(0deg)';
         }
 
         function toggleDropdown() {
@@ -127,24 +155,35 @@
 
         // Close the dropdown if the user clicks outside of it
         window.onclick = function(event) {
-            if (!event.target.matches('.dropdown-button') && !event.target.matches('.dropdown-arrow')) {
+            if (!event.target.matches('.dropdown-button') && !event.target.matches('.dropdown-arrow') &&
+                !event.target.matches('.location-dropdown-button')) {
                 const dropdowns = document.getElementsByClassName("dropdown-content");
+                const locationDropdown = document.getElementById("locationDropdown");
+                
                 for (let dropdown of dropdowns) {
                     if (dropdown.classList.contains('show')) {
                         dropdown.classList.remove('show');
                     }
                 }
+                if (locationDropdown && locationDropdown.classList.contains('show')) {
+                    locationDropdown.classList.remove('show');
+                }
+                
                 // Reset all arrows
                 const arrows = document.querySelectorAll('.dropdown-arrow');
                 arrows.forEach(arrow => {
                     if (arrow.closest('.location-dropdown-button')) {
-                        arrow.style.transform = 'rotate(180deg)';
+                        arrow.style.transform = 'rotate(0deg)';
                     } else {
                         arrow.style.transform = 'rotate(0deg)';
                     }
                 });
             }
         }
+    </script>
+</body>
+</html>
+    
     </script>
 </body>
 </html>
