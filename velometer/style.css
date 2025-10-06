@@ -3,6 +3,7 @@
     --error-color: #FF4F4F;
     --graph-color: #6FC3C5;
     --text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    --background-opacity: 0.2;
 }
 
 * {
@@ -14,7 +15,7 @@
 body {
     font-family: 'Josefin Slab', serif;
     font-weight: 700;
-    background-color: #ffffff00;
+    background-color: #E5E5E5;
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -27,24 +28,52 @@ body {
     min-height: 100vh;
 }
 
-/* Header Styles */
-header {
+/* Location Selector Styles */
+.location-selector {
     text-align: center;
     padding: 47px 0;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 .logo {
     width: 106px;
     height: 111px;
-    margin-bottom: 15px;
 }
 
-h1 {
+.location-dropdown {
+    position: relative;
+}
+
+.location-dropdown-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 40px 200px;
+    border-radius: 40px;
+}
+
+.location-dropdown-button h1 {
     font-size: 96px;
     text-align: center;
     text-shadow: var(--text-shadow);
     line-height: 100px;
+    margin: 0;
+}
+
+.location-dropdown-button .dropdown-arrow {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.location-dropdown-button.active {
+    background-color: var(--accent-color);
 }
 
 /* Available Bikes Section */
@@ -74,6 +103,29 @@ h1 {
     text-shadow: 4px 5px 2px rgba(0, 0, 0, 0.42);
 }
 
+/* Scroll Indicator */
+.scroll-indicator {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.arrow-down {
+    font-size: 24px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
 /* Statistics Section */
 .statistics {
     margin-top: 100px;
@@ -86,7 +138,7 @@ h1 {
     margin-bottom: 50px;
 }
 
-.dropdown {
+.days-dropdown {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -138,7 +190,7 @@ h1 {
 }
 
 .dropdown-content a:hover {
-    background-color: rgba(111, 195, 197, 100);
+    background-color: rgba(111, 195, 197, 0.2);
 }
 
 .dropdown-content a:first-child {
@@ -155,6 +207,7 @@ h1 {
 
 .dropdown-arrow {
     font-size: 24px;
+    transition: transform 0.3s ease;
 }
 
 /* Graph Container */
@@ -169,29 +222,44 @@ h1 {
 .graph {
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, var(--background-opacity));
     position: relative;
     padding: 40px;
+    border-radius: 4px;
+}
+
+.graph-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.graph-line {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--graph-color);
+    stroke-width: 3;
 }
 
 .y-axis {
     position: absolute;
-    left: 0;
+    left: -40px;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    font-size: 40px;
+    font-size: 24px;
     text-shadow: var(--text-shadow);
 }
 
 .x-axis {
     position: absolute;
-    bottom: -60px;
+    bottom: -40px;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    font-size: 40px;
+    font-size: 24px;
     text-shadow: var(--text-shadow);
 }
 

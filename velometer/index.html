@@ -9,13 +9,15 @@
 </head>
 <body>
     <div class="container">
-        <header>
+        <div class="location-selector">
             <img src="../img/chur.png" alt="Chur Wappen" class="logo">
-            <h1>Velometer<br>Bahnhofplatz</h1>
-        </header>
-
-
-        <br><br><br><br><br>
+            <div class="location-dropdown">
+                <button onclick="toggleLocationDropdown()" class="location-dropdown-button">
+                    <h1>Velometer<br>Bahnhofplatz</h1>
+                    <span class="dropdown-arrow rotate-180">▼</span>
+                </button>
+            </div>
+        </div>
 
 
         <main>
@@ -23,25 +25,26 @@
                 <h2>Velos jetzt verfügbar:</h2>
                 <div class="counter">0</div>
             </section>
-
-
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            
+            <div class="scroll-indicator">
+                <div class="arrow-down">▼</div>
+            </div><br><br><br><br><br><br>
 
             <section class="statistics">
                 <h2>Wie viele Velos hat es <br> üblicherweise?</h2>
-                <div class="dropdown">
+                <div class="days-dropdown">
                     <button onclick="toggleDropdown()" class="dropdown-button">
                         Wochentage
                         <span class="dropdown-arrow">▼</span>
                     </button>
                     <div id="myDropdown" class="dropdown-content">
-                        <a href="#" onclick="selectDay(event, 'Montag')">Montag</a>
-                        <a href="#" onclick="selectDay(event, 'Dienstag')">Dienstag</a>
-                        <a href="#" onclick="selectDay(event, 'Mittwoch')">Mittwoch</a>
-                        <a href="#" onclick="selectDay(event, 'Donnerstag')">Donnerstag</a>
-                        <a href="#" onclick="selectDay(event, 'Freitag')">Freitag</a>
-                        <a href="#" onclick="selectDay(event, 'Samstag')">Samstag</a>
-                        <a href="#" onclick="selectDay(event, 'Sonntag')">Sonntag</a>
+                        <a href="#" onclick="selectDay(event, 'Montag')" class="day-option">Montag</a>
+                        <a href="#" onclick="selectDay(event, 'Dienstag')" class="day-option">Dienstag</a>
+                        <a href="#" onclick="selectDay(event, 'Mittwoch')" class="day-option">Mittwoch</a>
+                        <a href="#" onclick="selectDay(event, 'Donnerstag')" class="day-option">Donnerstag</a>
+                        <a href="#" onclick="selectDay(event, 'Freitag')" class="day-option">Freitag</a>
+                        <a href="#" onclick="selectDay(event, 'Samstag')" class="day-option">Samstag</a>
+                        <a href="#" onclick="selectDay(event, 'Sonntag')" class="day-option">Sonntag</a>
                     </div>
                 </div>
                 
@@ -51,10 +54,14 @@
 
                 <div class="graph-container">
                     <div class="graph">
-                        <!-- Graph will be implemented with JavaScript -->
                         <div class="y-axis">
                             <span>9</span>
                             <span>1</span>
+                        </div>
+                        <div class="graph-content">
+                            <svg class="graph-line" viewBox="0 0 1000 400" preserveAspectRatio="none">
+                                <!-- Graph path will be added by JavaScript -->
+                            </svg>
                         </div>
                         <div class="x-axis">
                             <span>0:00</span>
@@ -88,36 +95,34 @@
     </div>
 
     <script>
+        function toggleLocationDropdown() {
+            document.querySelector('.location-dropdown-button').classList.toggle('active');
+            const arrow = document.querySelector('.location-dropdown-button .dropdown-arrow');
+            arrow.style.transform = arrow.style.transform === 'rotate(0deg)' ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
         function toggleDropdown() {
             document.getElementById("myDropdown").classList.toggle("show");
-            
-            // Rotate arrow when dropdown is opened/closed
-            const arrow = document.querySelector('.dropdown-arrow');
+            const arrow = document.querySelector('.dropdown-button .dropdown-arrow');
             arrow.style.transform = arrow.style.transform === 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
         }
 
         function selectDay(event, day) {
             event.preventDefault();
-            // Remove selected class from all items
-            const dropdownItems = document.querySelectorAll('.dropdown-content a');
-            dropdownItems.forEach(item => item.classList.remove('selected'));
-            // Add selected class to clicked item
+            // Remove selected class from all day options
+            document.querySelectorAll('.day-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            // Add selected class to clicked option
             event.target.classList.add('selected');
-            // Update the button text
+            
+            // Update the button text while preserving the arrow
             const dropdownBtn = document.querySelector('.dropdown-button');
-            dropdownBtn.textContent = day;
-            // Add back the arrow
-            const arrow = document.createElement('span');
-            arrow.className = 'dropdown-arrow';
-            arrow.textContent = '▼';
-            dropdownBtn.appendChild(arrow);
-            // Close the dropdown
+            dropdownBtn.innerHTML = day + '<span class="dropdown-arrow">▼</span>';
+            
+            // Close the dropdown and reset arrow
             document.getElementById("myDropdown").classList.remove("show");
-            // Reset arrow
-            arrow.style.transform = 'rotate(0deg)';
-            const button = document.querySelector('.dropdown-button');
-            button.firstChild.textContent = day;
-            toggleDropdown();
+            document.querySelector('.dropdown-button .dropdown-arrow').style.transform = 'rotate(0deg)';
         }
 
         // Close the dropdown if the user clicks outside of it
@@ -127,9 +132,17 @@
                 for (let dropdown of dropdowns) {
                     if (dropdown.classList.contains('show')) {
                         dropdown.classList.remove('show');
-                        document.querySelector('.dropdown-arrow').style.transform = 'rotate(0deg)';
                     }
                 }
+                // Reset all arrows
+                const arrows = document.querySelectorAll('.dropdown-arrow');
+                arrows.forEach(arrow => {
+                    if (arrow.closest('.location-dropdown-button')) {
+                        arrow.style.transform = 'rotate(180deg)';
+                    } else {
+                        arrow.style.transform = 'rotate(0deg)';
+                    }
+                });
             }
         }
     </script>
