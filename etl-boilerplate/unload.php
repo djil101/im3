@@ -118,3 +118,9 @@ try {
 
 
 header('Content-Type: application/json');
+
+
+// So rufst du es auf
+// Jetzt-Wert: unload.php?action=current&station=Bahnhofplatz
+
+// Stats (Durchschnitt + bestes Fenster, z. B. Dienstag, 2h, 06–22 Uhr): unload.php?action=stats&station=Kantonsspital&weekday=Di&hours=2&start_hour=6&end_hour=22
