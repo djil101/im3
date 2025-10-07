@@ -14,13 +14,13 @@
    ============================================================================ */
 
 
-// Transformations-Skript  als '230_transform.php' einbinden
-$jsonData = include('230_transform.php');
+// Transformations-Skript  als 'transform.php' einbinden
+$jsonData = include('transform.php');
 
 // Dekodiert die JSON-Daten zu einem Array
 $dataArray = json_decode($jsonData, true);
 
-require_once '../../config.php'; // Bindet die Datenbankkonfiguration ein
+require_once 'config.php'; // Bindet die Datenbankkonfiguration ein
 
 try {
     // Erstellt eine neue PDO-Instanz mit der Konfiguration aus config.php
