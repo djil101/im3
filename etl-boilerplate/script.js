@@ -13,7 +13,7 @@
    ============================================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const apiUrl = "https://im3.im-abc.ch/etl-boilerplate/unload.php"; // Passen Sie die URL bei Bedarf an
+  const apiUrl = "https://velometer-im3.sonnenschlau.ch/etl-boilerplate/unload.php"; // Passen Sie die URL bei Bedarf an
 
   fetch(apiUrl)
     .then((response) => response.json())

@@ -37,9 +37,10 @@ $locationsMap = [
 $transformedData = [];
 
 // Transformiert und fügt die notwendigen Informationen hinzu
-foreach ($data as $location) {
+foreach ($data as $location) { 
     // Bestimmt den Stadtnamen anhand von Breitengrad und Längengrad
-
+$cityKey = $location['latitude'] . ',' . $location['longitude'];
+    $city = $locationsMap[$cityKey] ?? 'Unbekannt';
     // Wandelt die Temperatur in Celsius um und rundet sie
 
     // Bestimmt die Wetterbedingung
