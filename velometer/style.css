@@ -180,33 +180,31 @@ body {
 
 /* Statistics Section */
 .statistics {
-    margin-top: 100px;
+    margin-top: 10px;
     text-align: center;
 }
 
-.best-time {
+.statistics .best-time {
     flex-shrink: 0;
-    width: 706px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-top: 100px;
+    margin-top: 10px;
 }
 
-.best-time h2 {
-    font-size: 48px;
+.statistics .best-time {
     text-shadow: var(--text-shadow);
     line-height: 1.2;
     letter-spacing: -1.28px;
     text-align: left;
-    max-width: 506px;
+    font-size: 42px;
 }
 
-.time-box {
+.statistics .time-box {
     background-color: var(--accent-color);
     border-radius: 30px;
     padding: 30px;
-    font-size: 48px;
+    font-size: 42px !important;
     text-align: center;
     text-shadow: var(--text-shadow);
     height: 188px;
@@ -217,7 +215,7 @@ body {
 }
 
 .statistics h2 {
-    font-size: 64px;
+    font-size: 42px;
     text-shadow: var(--text-shadow);
     margin-bottom: 50px;
     line-height: 1.2;
@@ -238,7 +236,7 @@ body {
     background-color: var(--accent-color);
     border: none;
     border-radius: 20px;
-    padding: 20px 75px;
+    padding: 20px 30px;
     font-family: 'Josefin Slab', serif;
     font-weight: 700;
     font-size: 40px;
@@ -266,7 +264,7 @@ body {
     padding: 20px 75px;
     text-decoration: none;
     display: block;
-    font-size: 32px;
+    font-size: 42px;
     text-align: center;
 }
 
@@ -408,7 +406,7 @@ body {
 
 .bg-bottom {
     position: absolute;
-    top: 2900px;
+    top: 1800px;
     left: -312px;
     width: 2296px;
     height: 500px;
@@ -428,7 +426,7 @@ body {
 
 .bike {
     position: absolute;
-    top: 1250px;
+    top: 1150px;
     right: 20px;
     width: 500px;
     height: 375px;
