@@ -20,11 +20,11 @@ try {
     $stmt = $pdo->prepare($sql);
 
     // Fügt jedes Element im Array in die Datenbank ein (Reihenfolge wichtig)
-     
-        $stmt->execute([
-            $data['firstname'],
-            $data['lastname'],
-            $data['email'],
+    $stmt->execute([
+        $data['date'],
+        $data['station_name'],
+            $data['bike_racks'],
+            $data['bike_available_to_rent'],
         ]);
     
 

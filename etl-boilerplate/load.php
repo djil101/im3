@@ -1,49 +1,55 @@
 <?php
-/* ============================================================================
-   HANDLUNGSANWEISUNG (load.php)
-   1) Binde 001_config.php (PDO-Config) ein.
-   2) Binde transform.php ein → erhalte TRANSFORM-JSON.
-   3) json_decode(..., true) → Array mit Datensätzen.
-   4) Stelle PDO-Verbindung her (ERRMODE_EXCEPTION, FETCH_ASSOC).
-   5) Bereite INSERT/UPSERT-Statement mit Platzhaltern vor.
-   6) Iteriere über Datensätze und führe execute(...) je Zeile aus.
-   7) Optional: Transaktion verwenden (beginTransaction/commit) für Performance.
-   8) Bei Erfolg: knappe Bestätigung ausgeben (oder still bleiben, je nach Kontext).
-   9) Bei Fehlern: Exception fangen → generische Fehlermeldung/Code (kein Stacktrace).
-  10) Keine Debug-Ausgaben in Produktion; sensible Daten nicht loggen.
-   ============================================================================ */
+declare(strict_types=1);
 
+// Transformations-Skript einbinden (liefert bereits ein PHP-Array)
+$dataArray = include __DIR__ . '/transform.php';
 
-// Transformations-Skript  als 'transform.php' einbinden
-$jsonData = include('transform.php');
+if (!is_array($dataArray)) {
+    die("Fehler: transform.php hat kein Array zurueckgegeben.");
+}
 
-// Dekodiert die JSON-Daten zu einem Array
-$dataArray = json_decode($jsonData, true);
-
-require_once 'config.php'; // Bindet die Datenbankkonfiguration ein
+require_once __DIR__ . '/config.php'; // $dsn, $username, $password, $options
 
 try {
-    // Erstellt eine neue PDO-Instanz mit der Konfiguration aus config.php
-    $pdo = new PDO($dsn, $username, $password, $options);
+    $pdo = new PDO($dsn, $username, $password, $options ?? []);
+    // Falls in config.php nicht gesetzt:
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
-    // SQL-Query mit Platzhaltern für das Einfügen von Daten
-    $sql = "INSERT INTO velometer (date, station_name, bike_racks, bike_available_to_rent) VALUES (?, ?, ?, ?)";
-
-    // Bereitet die SQL-Anweisung vor
-    $stmt = $pdo->prepare($sql);
-
-    // Fügt jedes Element im Array in die Datenbank ein
-    foreach ($dataArray as $item) {
-        $stmt->execute([
-            $item['date'],
-            $item['station_name'],
-            $item['bike_racks'],
-            $item['bike_available_to_rent']
-        ]);
+    // Optional: Abbrechen, wenn nichts da ist
+    if (empty($dataArray)) {
+        echo "Hinweis: Keine Datensaetze zum Einfuegen gefunden.";
+        exit;
     }
 
-    echo "Daten erfolgreich eingefügt.";
+    // Transaktion fuer Performance & Konsistenz
+    $pdo->beginTransaction();
+
+    // Achtung: `date` zur Sicherheit escapen
+    $sql = "INSERT INTO velometer (`date`, station_name, bike_racks, bike_available_to_rent)
+            VALUES (:date, :station_name, :bike_racks, :bike_available_to_rent)";
+    $stmt = $pdo->prepare($sql);
+
+    $inserted = 0;
+    foreach ($dataArray as $item) {
+        // Minimal-Validierung
+        if (!isset($item['date'], $item['station_name'])) {
+            continue;
+        }
+        $stmt->execute([
+            ':date'                   => $item['date'],
+            ':station_name'           => $item['station_name'],
+            ':bike_racks'             => $item['bike_racks'] ?? null,
+            ':bike_available_to_rent' => $item['bike_available_to_rent'] ?? null,
+        ]);
+        $inserted++;
+    }
+
+    $pdo->commit();
+
+    echo "✅ $inserted Datensaetze erfolgreich eingefuegt.";
 } catch (PDOException $e) {
-    die("Verbindung zur Datenbank konnte nicht hergestellt werden: " . $e->getMessage());
+    if ($pdo && $pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    die("DB-Fehler: " . $e->getMessage());
 }

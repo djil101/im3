@@ -1,53 +1,92 @@
 <?php
 
-/* ============================================================================
-   HANDLUNGSANWEISUNG (transform.php)
-   0) Schau dir die Rohdaten genau an und plane exakt, wie du die Daten umwandeln möchtest (auf Papier)
-   1) Binde extract.php ein und erhalte das Rohdaten-Array.
-   2) Definiere Mapping Koordinaten → Anzeigename (z. B. Bern/Chur/Zürich).
-   3) Konvertiere Einheiten (z. B. °F → °C) und runde sinnvoll (Celsius = (Fahrenheit - 32) * 5 / 9).
-   4) Leite eine einfache "condition" ab (z. B. sonnig/teilweise bewölkt/bewölkt/regnerisch).
-   5) Baue ein kompaktes, flaches Array je Standort mit den Ziel-Feldern.
-   6) Optional: Sortiere die Werte (z. B. nach Zeit), entferne irrelevante Felder.
-   7) Validiere Pflichtfelder (location, temperature_celsius, …).
-   8) Kodieren: json_encode(..., JSON_PRETTY_PRINT) → JSON-String.
-   9) GIB den JSON-String ZURÜCK (return), nicht ausgeben – für den Load-Schritt.
-  10) Fehlerfälle als Exception nach oben weiterreichen (kein HTML/echo).
-   ============================================================================ */
+/**
+ * transform.php
+ * 
+ * Erwartet: extract.php liefert das dekodierte Nextbike-JSON als Array.
+ * Gibt ein Array mit folgenden Feldern zurück:
+ *   - date                 (Zeitstempel)
+ *   - station_name         (Name, ggf. umbenannt)
+ *   - bike_racks           (Gesamtstellplätze)
+ *   - bike_available_to_rent (verfügbare Mietbikes)
+ */
 
-// Bindet das Skript extract.php für Rohdaten ein und speichere es in $data
+// Rohdaten laden
 $data = include('extract.php');
 
-print_r($data);
-
-// Definiert eine Zuordnung von Koordinaten zu Stadtnamen
-$locationsMap = [
-    '46.853461,9.530477' => 'Bahnhofplatz',
-    '46.858458,9.506621' => 'Obere Au',
-    '46.8636, 9.53846' => 'Kantonsspital',
+// --- Orte, die wir behalten wollen ---
+$whitelist = [
+    'Bahnhofplatz',
+    'Obere Au',
+    'Kantonsspital Graubuenden',
+    'Kantonsspital Graubünden',
 ];
 
-// Funktion, um Fahrenheit in Celsius umzurechnen
+// --- Namens-Mapping ---
+$renameMapNorm = [
+    'kantonsspital graubuenden' => 'Kantonsspital',
+    'kantonsspital graubunden'  => 'Kantonsspital',
+];
 
-// Neue Funktion zur Bestimmung der Wetterbedingung
+// --- Helper zum Normalisieren (Umlaute etc.) ---
+$normalize = function (string $name): string {
+    $n = trim($name);
+    $n = str_replace(
+        ['ä','ö','ü','Ä','Ö','Ü','ß','é','è','ê','É','È','Ê'],
+        ['ae','oe','ue','Ae','Oe','Ue','ss','e','e','e','E','E','E'],
+        $n
+    );
+    $n = str_replace(['graubünden','graubuenden'], 'graubunden', mb_strtolower($n, 'UTF-8'));
+    return $n;
+};
 
+// Whitelist normalisieren
+$whitelistNorm = array_map($normalize, $whitelist);
 
-
-// Initialisiert ein Array, um die transformierten Daten zu speichern
+// --- Transformation starten ---
 $transformedData = [];
 
-// Transformiert und fügt die notwendigen Informationen hinzu
-foreach ($data as $location) { 
-    // Bestimmt den Stadtnamen anhand von Breitengrad und Längengrad
-$cityKey = $location['latitude'] . ',' . $location['longitude'];
-    $city = $locationsMap[$cityKey] ?? 'Unbekannt';
-    // Wandelt die Temperatur in Celsius um und rundet sie
+if (isset($data['countries']) && is_array($data['countries'])) {
+    foreach ($data['countries'] as $country) {
+        if (empty($country['cities'])) continue;
+        foreach ($country['cities'] as $city) {
+            if (empty($city['places'])) continue;
+            foreach ($city['places'] as $place) {
 
-    // Bestimmt die Wetterbedingung
+                if (empty($place['name'])) continue;
 
-    // Konstruiert die neue Struktur mit allen angegebenen Feldern, einschließlich des neuen 'condition'-Feldes
+                $placeNameNorm = $normalize((string)$place['name']);
+                if (!in_array($placeNameNorm, $whitelistNorm, true)) continue;
+
+                // Anzeige-/Speichername ggf. umbenennen
+                $displayName = $renameMapNorm[$placeNameNorm] ?? $place['name'];
+
+                // Daten sicher abgreifen
+                $bikeRacks = $place['bike_racks']
+                    ?? $place['rack_count']
+                    ?? $place['total_racks']
+                    ?? null;
+
+                $available = $place['bikes_available_to_rent']
+                    ?? $place['bikes']
+                    ?? $place['available_bikes']
+                    ?? null;
+
+                // Zahlen sicher casten
+                $bikeRacks = is_numeric($bikeRacks) ? (int)$bikeRacks : null;
+                $available = is_numeric($available) ? (int)$available : null;
+
+                // Datenobjekt aufbauen
+                $transformedData[] = [
+                    'date'                   => date('Y-m-d H:i:s'),
+                    'station_name'           => $displayName,
+                    'bike_racks'             => $bikeRacks,
+                    'bike_available_to_rent' => $available,
+                ];
+            }
+        }
+    }
 }
 
-// Kodiert die transformierten Daten in JSON
-
-// Gibt die JSON-Daten zurück, anstatt sie auszugeben
+// Rückgabe ans nächste ETL-Modul (z. B. load.php)
+return $transformedData;
