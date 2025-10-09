@@ -18,20 +18,22 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch(apiUrl)
     .then((response) => response.json())
     .then((data) => {
-      const ctx = document.getElementById("temperatureChart").getContext("2d");
-      const datasets = Object.keys(data).map((city) => ({
-        label: city,
-        data: data[city].map((item) => item.temperature_celsius),
+      console.log("Abgerufene Daten:", data); // Loggt die abgerufenen Daten zur Überprüfung
+
+      const ctx = document.getElementById("velometerChart").getContext("2d");
+      const datasets = Object.keys(data).map((station_name) => ({
+        label: station_name, date, bike_available_to_rent
+        data: data[station_name].map((item) => item.temperature_celsius),
         fill: false,
         borderColor: getRandomColor(), // Generiert eine zufällige Farbe für jede Stadtlinie im Diagramm
         tension: 0.1, // Gibt der Linie im Diagramm eine leichte Kurve
       }));
 
-      /* Uncomment to create the chart
+      //Uncomment to create the chart
       new Chart(ctx, {
         type: "line",
         data: {
-          labels: data["Bern"].map((item) => new Date(item.created_at).toLocaleDateString()), // Nimmt an, dass alle Städte Daten für dieselben Daten haben
+          labels: data["station_name"].map((item) => new Date(item.created_at).toLocaleDateString()), // Nimmt an, dass alle Städte Daten für dieselben Daten haben
           datasets: datasets,
         },
         options: {
@@ -42,18 +44,17 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         },
       });
-      */
     })
     .catch((error) => console.error("Fetch-Fehler:", error)); // Gibt Fehler im Konsolenlog aus, falls die Daten nicht abgerufen werden können
 
-  function getCityColor(city) {
+  function getCityColor(station_name) {
     const cityColors = {
-      Bern: "#ffcf33ff",
-      Zürich: "#33a3ffff",
-      Chur: "#2edc07ff",
+      Bahnhofplatz: "#ffcf33ff",
+      Obere_Au: "#33a3ffff",
+      Kantonsspital: "#2edc07ff",
       // Fügen Sie hier weitere Städte und ihre Farben hinzu
     };
-    return cityColors[city] || getRandomColor(); // Gibt die vordefinierte Farbe zurück oder eine zufällige Farbe
+    return cityColors[station_name] || getRandomColor(); // Gibt die vordefinierte Farbe zurück oder eine zufällige Farbe
   }
 
   function getRandomColor() {
