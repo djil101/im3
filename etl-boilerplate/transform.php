@@ -63,13 +63,9 @@ if (isset($data['countries']) && is_array($data['countries'])) {
 
                 // Daten sicher abgreifen
                 $bikeRacks = $place['bike_racks']
-                    ?? $place['rack_count']
-                    ?? $place['total_racks']
                     ?? null;
 
                 $available = $place['bikes_available_to_rent']
-                    ?? $place['bikes']
-                    ?? $place['available_bikes']
                     ?? null;
 
                 // Zahlen sicher casten
