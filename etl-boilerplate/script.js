@@ -13,7 +13,7 @@
    ============================================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const apiUrl = "https://velometer-im3.sonnenschlau.ch/etl-boilerplate/unload.php"; // Passen Sie die URL bei Bedarf an
+  const apiUrl = "https://velometer-im3.sonnenschlau.ch/etl-boilerplate/csunload.php"; // Passen Sie die URL bei Bedarf an
 
   fetch(apiUrl)
     .then((response) => response.json())
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const ctx = document.getElementById("velometerChart").getContext("2d");
       const datasets = Object.keys(data).map((station_name) => ({
-        label: station_name, date, bike_available_to_rent
+        label: station_name,
         data: data[station_name].map((item) => item.temperature_celsius),
         fill: false,
         borderColor: getRandomColor(), // Generiert eine zufällige Farbe für jede Stadtlinie im Diagramm

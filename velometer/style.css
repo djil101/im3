@@ -322,6 +322,12 @@ body {
     border-radius: 4px;
 }
 
+#velometerChart {
+    width: 100%;
+    height: 400px; /* Oder eine andere feste Höhe */
+    background-color: #f0f0f0; /* Zum Testen der Sichtbarkeit */
+}
+
 .graph-content {
     position: relative;
     width: 100%;
