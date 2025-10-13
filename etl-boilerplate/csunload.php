@@ -66,10 +66,10 @@ try {
             station_name,
             bike_available_to_rent,
             date
-        FROM `velometerChart`
+        FROM velometerChart
         WHERE (station_name, date) IN (
             SELECT station_name, MAX(date) 
-            FROM `velometerChart` 
+            FROM velometerChart 
             GROUP BY station_name
         )
         ORDER BY station_name
