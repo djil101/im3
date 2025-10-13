@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dataset = {
       label: `${currentStation} - Durchschnitt`,
       data: values,
-      fill: false,
+      fill: true,
       borderColor: getCityColor(currentStation),
       backgroundColor: getCityColor(currentStation),
       tension: 0.3,
@@ -173,9 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getCityColor(station_name) {
     const cityColors = {
-      "Bahnhofplatz": "#ffcf33",
-      "Obere Au": "#33a3ff",
-      "Kantonsspital": "#2edc07",
+      "Bahnhofplatz": "#FF6C6C",
+      "Obere Au": "#6FC575",
+      "Kantonsspital": "#6FC3C5",
     };
     return cityColors[station_name] || "#999999";
   }
