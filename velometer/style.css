@@ -355,17 +355,6 @@ body {
     min-width: 468px;
 }
 
-/* Background Images */
-.background-images {
-    position: absolute;
-    top: 0;
-    right: 70px;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-}
-
 .bg-top {
     position: absolute;
     top: 0;
@@ -374,6 +363,7 @@ body {
     height: 1432px;
     opacity: 0.2;
     object-fit: cover;
+    z-index: -1;
 }
 
 .bg-bottom {
