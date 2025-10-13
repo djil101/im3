@@ -105,6 +105,9 @@ document.addEventListener("DOMContentLoaded", () => {
       pointHoverRadius: 5,
     };
 
+    // Beste Zeit berechnen und anzeigen
+    updateBestTime(values);
+
     if (chartInstance) {
       // Chart existiert bereits -> Update
       chartInstance.data.labels = labels;
@@ -175,5 +178,59 @@ document.addEventListener("DOMContentLoaded", () => {
       "Kantonsspital": "#2edc07",
     };
     return cityColors[station_name] || "#999999";
+  }
+
+  function updateBestTime(values) {
+    // Finde die besten Zeiträume (höchste Verfügbarkeit)
+    const timeBox = document.querySelector('.time-box');
+    
+    if (!timeBox) return;
+
+    // Filtere null-Werte raus und erstelle Array mit {hour, value}
+    const hoursWithValues = values
+      .map((val, hour) => ({ hour, value: val }))
+      .filter(item => item.value !== null);
+
+    if (hoursWithValues.length === 0) {
+      timeBox.textContent = "Keine Daten verfügbar";
+      return;
+    }
+
+    // Sortiere nach Verfügbarkeit (höchste zuerst)
+    hoursWithValues.sort((a, b) => b.value - a.value);
+
+    // Nimm die Top 30% der Stunden (mindestens 3, maximal 8)
+    const topCount = Math.max(3, Math.min(8, Math.ceil(hoursWithValues.length * 0.3)));
+    const topHours = hoursWithValues.slice(0, topCount).map(item => item.hour).sort((a, b) => a - b);
+
+    // Gruppiere zusammenhängende Stunden zu Zeiträumen
+    const timeRanges = [];
+    let rangeStart = topHours[0];
+    let rangeEnd = topHours[0];
+
+    for (let i = 1; i < topHours.length; i++) {
+      if (topHours[i] === rangeEnd + 1) {
+        // Fortsetzung des aktuellen Zeitraums
+        rangeEnd = topHours[i];
+      } else {
+        // Neuer Zeitraum beginnt
+        timeRanges.push({ start: rangeStart, end: rangeEnd });
+        rangeStart = topHours[i];
+        rangeEnd = topHours[i];
+      }
+    }
+    // Letzten Zeitraum hinzufügen
+    timeRanges.push({ start: rangeStart, end: rangeEnd });
+
+    // Formatiere Zeiträume als String
+    const formattedRanges = timeRanges.map(range => {
+      const startStr = `${String(range.start).padStart(2, '0')}:00`;
+      const endStr = `${String(range.end + 1).padStart(2, '0')}:00`;
+      return range.start === range.end ? startStr : `${startStr} - ${endStr}`;
+    });
+
+    // Zeige maximal 2 Zeiträume an
+    const displayText = formattedRanges.slice(0, 2).join(' / ');
+    timeBox.textContent = displayText;
   }
 });
