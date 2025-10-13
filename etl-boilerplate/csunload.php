@@ -59,6 +59,29 @@ try {
         exit;
     }
 
+    if ($action === 'current') {
+    // Hole die neuesten Daten für alle Stationen
+    $sql = "
+        SELECT 
+            station_name,
+            bike_available_to_rent,
+            date
+        FROM `velometerChart`
+        WHERE (station_name, date) IN (
+            SELECT station_name, MAX(date) 
+            FROM `velometerChart` 
+            GROUP BY station_name
+        )
+        ORDER BY station_name
+    ";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    echo json_encode($rows, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
     // Default: Rohdaten (wie bisher)
     $sql = "SELECT * FROM `velometerChart`";
     $stmt = $pdo->prepare($sql);
