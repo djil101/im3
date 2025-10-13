@@ -297,20 +297,21 @@ body {
 .statistics-container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    max-width: auto;
+    align-items: stretch; /* Geändert von flex-start */
+    max-width: 100%;
     margin: 0 auto;
     padding: 0 50px;
-    gap: 100px;
+    gap: 50px; /* Geändert von 100px - weniger Gap */
     position: relative;
 }
 
 .graph-container {
-    flex: 1;
+    flex: 1; /* Nimmt verfügbaren Platz */
     margin: 0;
-    max-width: auto;
+    max-width: none;
     height: auto;
     position: relative;
+    min-height: 400px; /* Minimale Höhe */
 }
 
 .graph {
@@ -318,14 +319,15 @@ body {
     height: 100%;
     background-color: transparent;
     position: relative;
-    padding: 40px;
+    padding: 20px;
     border-radius: 4px;
 }
 
 #velometerChart {
-    width: 200%;
-    height: 800px; /* Oder eine andere feste Höhe */
-    background-color: #E5E5E5; /* Zum Testen der Sichtbarkeit */
+    width: 100% !important;
+    height: 100% !important; /* Passt sich automatisch an */
+    min-height: 400px; /* Mindesthöhe */
+    background-color: #E5E5E5;
 }
 
 
