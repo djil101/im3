@@ -213,37 +213,4 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i = 0; i < 6; i++) color += letters[Math.floor(Math.random() * 16)];
     return color;
   }
-<<<<<<< Updated upstream
 });
-=======
-});
-
-function selectLocation(event, location) {
-  event.preventDefault();
-  // Remove selected class from all location options
-  document.querySelectorAll('.location-option').forEach(option => {
-      option.classList.remove('selected');
-  });
-  // Add selected class to clicked option
-  event.target.classList.add('selected');
-  // Update the location text
-  document.querySelector('.location-text').textContent = location;
-  // Close the dropdown
-  document.getElementById('locationDropdown').classList.remove('show');
-  // Reset arrow
-  document.querySelector('.location-dropdown-button .dropdown-arrow').style.transform = 'rotate(0deg)';
-
-  // --- Hintergrund nur bg-top ändern ---
-  const bgTop = document.querySelector('.bg-top');
-
-  const backgrounds = {
-      "Bahnhofplatz": "img/hintergrund_bahnhofplatz.png",
-      "Obere Au": "img/hintergrund_obere_au.png",
-      "Kantonsspital": "img/hintergrund_kantonsspital.png",
-  };
-
-  if (backgrounds[location]) {
-      bgTop.src = backgrounds[location];
-  }
-}
->>>>>>> Stashed changes
