@@ -15,7 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Event-Listener für Standortwahl
   document.querySelectorAll(".location-option").forEach((btn) => {
     btn.addEventListener("click", (e) => {
+      e.preventDefault();
       currentStation = e.target.textContent.trim();
+      console.log("Station gewählt:", currentStation);
       loadData();
       updateLiveCount();
     });
@@ -24,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Event-Listener für Wochentagswahl
   document.querySelectorAll(".day-option").forEach((btn) => {
     btn.addEventListener("click", (e) => {
+      e.preventDefault();
       const dayMap = {
         Mo: 0,
         Di: 1,
@@ -35,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       const day = e.target.textContent.trim();
       currentWeekday = dayMap[day] ?? 0;
+      console.log("Wochentag gewählt:", day, "→", currentWeekday);
       loadData();
     });
   });
@@ -47,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function loadData() {
     const url = `${apiUrl}?action=avg_by_weekday&weekday=${currentWeekday}`;
+    console.log("Lade Daten von:", url);
 
     fetch(url)
       .then((res) => {
@@ -66,15 +71,27 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        // Labels: 00:00 bis 23:00
-        const labels = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, "0")}:00`);
-        const values = Array.from({ length: 24 }, (_, i) => stationData[String(i)] ?? null);
+        console.log("Station-Daten:", stationData);
+
+        // Labels: 00 bis 23
+        const labels = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
+        
+        // Prüfe ob stationData ein Array oder Objekt ist
+        let values;
+        if (Array.isArray(stationData)) {
+          values = stationData;
+        } else {
+          values = Array.from({ length: 24 }, (_, i) => stationData[String(i)] ?? null);
+        }
+
+        console.log("Werte für Chart:", values);
 
         const dataset = {
           label: `${currentStation} (Durchschnitt)`,
           data: values,
           fill: false,
           borderColor: getCityColor(currentStation),
+          backgroundColor: getCityColor(currentStation),
           tension: 0.3,
           spanGaps: true,
           pointRadius: 3,
@@ -118,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Fetch/Parse-Fehler:", err);
         const msg = document.createElement("p");
         msg.textContent = "Ups, die Velodaten konnten nicht geladen werden.";
+        msg.style.color = "red";
         canvas.parentElement.appendChild(msg);
       });
   }
@@ -147,12 +165,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateBestTime(values) {
+    console.log("Berechne beste Zeit für Werte:", values);
+    
     // Filtere null-Werte raus und erstelle Array mit [stunde, wert]
     const validData = values
       .map((val, hour) => ({ hour, val }))
-      .filter((d) => d.val !== null);
+      .filter((d) => d.val !== null && d.val !== undefined);
 
-    if (validData.length === 0) return;
+    console.log("Gültige Daten:", validData);
+
+    if (validData.length === 0) {
+      const timeBox = document.querySelector(".time-box");
+      if (timeBox) {
+        timeBox.innerHTML = "Keine Daten verfügbar";
+      }
+      return;
+    }
 
     // Sortiere nach Wert absteigend
     validData.sort((a, b) => b.val - a.val);
@@ -161,6 +189,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const topCount = Math.max(3, Math.min(8, Math.ceil(validData.length * 0.3)));
     const topHours = validData.slice(0, topCount).map((d) => d.hour);
     topHours.sort((a, b) => a - b);
+
+    console.log("Top Stunden:", topHours);
 
     // Gruppiere zusammenhängende Stunden
     const ranges = [];
@@ -178,6 +208,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     ranges.push({ start, end });
 
+    console.log("Zeiträume:", ranges);
+
     // Maximal 2 Zeiträume anzeigen
     const displayRanges = ranges.slice(0, 2);
 
@@ -191,6 +223,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
       .join(" / ");
+
+    console.log("Beste Zeit Text:", text);
 
     // Aktualisiere HTML
     const timeBox = document.querySelector(".time-box");
