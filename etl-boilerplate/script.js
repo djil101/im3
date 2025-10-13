@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             data: { labels, datasets: [dataset] },
             options: {
               responsive: true,
+              maintainAspectRatio: true,
               scales: {
                 y: {
                   beginAtZero: false,
