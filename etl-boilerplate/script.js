@@ -24,24 +24,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Event-Listener für Wochentagswahl
-  document.querySelectorAll(".day-option").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const dayMap = {
-        Mo: 0,
-        Di: 1,
-        Mi: 2,
-        Do: 3,
-        Fr: 4,
-        Sa: 5,
-        So: 6,
-      };
-      const day = e.target.textContent.trim();
-      currentWeekday = dayMap[day] ?? 0;
-      console.log("Wochentag gewählt:", day, "→", currentWeekday);
-      loadData();
-    });
+document.querySelectorAll(".day-option").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation(); // Verhindert dass der alte onclick-Handler ausgeführt wird
+    const dayMap = {
+      Montag: 0,
+      Dienstag: 1,
+      Mittwoch: 2,
+      Donnerstag: 3,
+      Freitag: 4,
+      Samstag: 5,
+      Sonntag: 6,
+    };
+    const day = e.target.textContent.trim();
+    currentWeekday = dayMap[day] ?? 0;
+    console.log("Wochentag gewählt:", day, "→", currentWeekday);
+    loadData();
   });
+});
 
   // Initiales Laden
   loadData();
