@@ -79,7 +79,7 @@
         </main>
 
         <div>
-            <img src="../img/hintergrund_velometer.jpg" alt="" class="bg-top">
+            <img src="../img/hintergrund_bahnhofplatz.png" alt="" class="bg-top">
             <img src="../img/strasse.png" alt="" class="bg-bottom">
         </div>
     </div>
@@ -101,20 +101,40 @@
         }
 
         function selectLocation(event, location) {
-            event.preventDefault();
-            // Remove selected class from all location options
-            document.querySelectorAll('.location-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            // Add selected class to clicked option
-            event.target.classList.add('selected');
-            // Update the location text
-            document.querySelector('.location-text').textContent = location;
-            // Close the dropdown
-            document.getElementById('locationDropdown').classList.remove('show');
-            // Reset arrow
-            document.querySelector('.location-dropdown-button .dropdown-arrow').style.transform = 'rotate(0deg)';
-        }
+    event.preventDefault();
+    
+    // Remove selected class from all location options
+    document.querySelectorAll('.location-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Add selected class to clicked option
+    event.target.classList.add('selected');
+    
+    // Update the location text
+    document.querySelector('.location-text').textContent = location;
+    
+    // Change background image based on location
+    const bgTop = document.querySelector('.bg-top');
+    
+    switch(location) {
+        case 'Bahnhofplatz':
+            bgTop.src = '../img/hintergrund_velometer.png';
+            break;
+        case 'Obere Au':
+            bgTop.src = '../img/hintergrund_obere_au.png';
+            break;
+        case 'Kantonsspital':
+            bgTop.src = '../img/hintergrund_kantonsspital.png';
+            break;
+    }
+    
+    // Close the dropdown
+    document.getElementById('locationDropdown').classList.remove('show');
+    
+    // Reset arrow
+    document.querySelector('.location-dropdown-button .dropdown-arrow').style.transform = 'rotate(0deg)';
+}
 
         function toggleDropdown() {
             document.getElementById("myDropdown").classList.toggle("show");
