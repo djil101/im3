@@ -1,68 +1,121 @@
-/* ============================================================================
-   HANDLUNGSANWEISUNG (script.js)
-   1) Warte auf DOMContentLoaded, bevor du DOM referenzierst.
-   2) Setze apiUrl auf den korrekten Backend-Endpoint (unload.php o. ä.).
-   3) Hole Daten asynchron (fetch), prüfe response.ok, parse JSON.
-   4) Transformiere Daten für das Chart: labels, datasets je Stadt/Serie bilden.
-   5) Initialisiere Chart.js mit Typ (line), data (labels, datasets), options (scales).
-   6) Nutze Hilfsfunktionen (z. B. getRandomColor) für visuelle Unterscheidung.
-   7) Behandle Fehler (catch) → logge aussagekräftig, zeige Fallback im UI.
-   8) Optional: Datum/Uhrzeit schön formatieren (toLocaleDateString/Time).
-   9) Performance: große Responses paginieren/filtern; Redraws minimieren.
-  10) Sicherheit: Keine geheimen Keys im Frontend; nur öffentliche Endpunkte nutzen.
-   ============================================================================ */
-
 document.addEventListener("DOMContentLoaded", () => {
-  const apiUrl = "https://velometer-im3.sonnenschlau.ch/etl-boilerplate/csunload.php"; // Passen Sie die URL bei Bedarf an
+  const apiUrl = "https://velometer-im3.sonnenschlau.ch/etl-boilerplate/csunload.php";
+
+  const canvas = document.getElementById("velometerChart");
+  if (!canvas) {
+    console.error("Canvas mit id=velometerChart nicht gefunden");
+    return;
+  }
+  const ctx = canvas.getContext("2d");
 
   fetch(apiUrl)
-    .then((response) => response.json())
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
     .then((data) => {
-      console.log("Abgerufene Daten:", data); // Loggt die abgerufenen Daten zur Überprüfung
+      console.log("Rohdaten:", data);
 
-      const ctx = document.getElementById("velometerChart").getContext("2d");
-      const datasets = Object.keys(data).map((station_name) => ({
-        label: station_name,
-        data: data[station_name].map((item) => item.temperature_celsius),
-        fill: false,
-        borderColor: getRandomColor(), // Generiert eine zufällige Farbe für jede Stadtlinie im Diagramm
-        tension: 0.1, // Gibt der Linie im Diagramm eine leichte Kurve
-      }));
+      if (!Array.isArray(data)) {
+        throw new Error("API liefert kein Array. Erwartet: Array von Rows {station_name, date, bike_available_to_rent, …}");
+      }
 
-      //Uncomment to create the chart
+      // 1) Nach Station gruppieren
+      const byStation = data.reduce((acc, row) => {
+        const name = row.station_name;
+        if (!acc[name]) acc[name] = [];
+        acc[name].push(row);
+        return acc;
+      }, {});
+
+      // 2) Zeitstempel sammeln & sortieren (globales, einheitliches Label-Set)
+      const tsSet = new Set();
+      data.forEach((row) => tsSet.add(row.date));
+      const labelsRaw = Array.from(tsSet).sort((a, b) => new Date(a) - new Date(b));
+
+      // 3) Schoen formatierte Labels (z. B. 06.10.2025 07:00)
+      const labels = labelsRaw.map((d) =>
+        new Date(d.replace(" ", "T")).toLocaleString("de-CH", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      );
+
+      // 4) Datensaetze je Station an Labels ausrichten
+      const datasets = Object.entries(byStation).map(([stationName, rows]) => {
+        // Map fuer schnellen Zugriff: isoString -> row
+        const map = new Map(rows.map((r) => [r.date, r]));
+        const series = labelsRaw.map((ts) => {
+          const hit = map.get(ts);
+          return hit ? Number(hit.bike_available_to_rent) : null; // Luecken als null
+        });
+
+        return {
+          label: stationName,
+          data: series,
+          fill: false,
+          borderColor: getCityColor(stationName),
+          tension: 0.1,
+          spanGaps: true, // null-Werte uebergehen
+          pointRadius: 2,
+        };
+      });
+
+      // 5) Chart rendern
       new Chart(ctx, {
         type: "line",
         data: {
-          labels: data["station_name"].map((item) => new Date(item.created_at).toLocaleDateString()), // Nimmt an, dass alle Städte Daten für dieselben Daten haben
-          datasets: datasets,
+          labels,
+          datasets,
         },
         options: {
+          responsive: true,
+          interaction: { mode: "nearest", intersect: false },
           scales: {
             y: {
-              beginAtZero: false, // Startet die y-Achse nicht bei 0, um einen besseren Überblick über die Schwankungen zu geben
+              beginAtZero: false,
+              title: { display: true, text: "Verfuegbare Bikes" },
+            },
+            x: {
+              title: { display: true, text: "Zeit" },
+            },
+          },
+          plugins: {
+            legend: { position: "top" },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y ?? "keine Daten"}`,
+              },
             },
           },
         },
       });
     })
-    .catch((error) => console.error("Fetch-Fehler:", error)); // Gibt Fehler im Konsolenlog aus, falls die Daten nicht abgerufen werden können
+    .catch((err) => {
+      console.error("Fetch/Parse-Fehler:", err);
+      // Optional: Fallback ins UI schreiben
+      const msg = document.createElement("p");
+      msg.textContent = "Ups, die Velodaten konnten nicht geladen werden.";
+      canvas.parentElement.appendChild(msg);
+    });
 
   function getCityColor(station_name) {
+    // exakte Namen wie sie im JSON stehen
     const cityColors = {
-      Bahnhofplatz: "#ffcf33ff",
-      Obere_Au: "#33a3ffff",
-      Kantonsspital: "#2edc07ff",
-      // Fügen Sie hier weitere Städte und ihre Farben hinzu
+      "Bahnhofplatz": "#ffcf33",
+      "Obere Au": "#33a3ff",
+      "Kantonsspital": "#2edc07",
     };
-    return cityColors[station_name] || getRandomColor(); // Gibt die vordefinierte Farbe zurück oder eine zufällige Farbe
+    return cityColors[station_name] || getRandomColor();
   }
 
   function getRandomColor() {
-    var letters = "0123456789ABCDEF";
-    var color = "#";
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color; // Erzeugt eine zufällige Farbe
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) color += letters[Math.floor(Math.random() * 16)];
+    return color;s
   }
 });
