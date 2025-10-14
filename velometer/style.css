@@ -329,9 +329,11 @@ body {
 .bg-top {
     position: absolute;
     top: 0;
-    left: 0px;
-    width: 1500px;
-    height: 1432px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    min-width: 1728px;
+    height: auto;
     opacity: 0.2;
     object-fit: cover;
     z-index: -1;
@@ -340,11 +342,31 @@ body {
 .bg-bottom {
     position: absolute;
     top: 1800px;
-    left: -312px;
-    width: 2296px;
-    height: 500px;
+    left: -312px; /* Original */
+    width: 2296px; /* Original */
+    height: 500px; /* Original */
     opacity: 0.2;
     object-fit: cover;
+    z-index: -1; /* Hinzugefügt */
+}
+
+/* Responsive nur für bg-top */
+@media screen and (max-width: 1024px) {
+    .bg-top {
+        min-width: 1024px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .bg-top {
+        min-width: 768px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .bg-top {
+        min-width: 480px;
+    }
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
