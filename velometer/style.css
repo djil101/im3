@@ -44,6 +44,19 @@ body {
     gap: 15px;
 }
 
+/* Velo2 Image Styles */
+.velo2-container {
+    text-align: center;
+    margin: 50px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.velo2-container img {
+    width: 400px;
+    height: auto;
+}
+
 .logo {
     width: 106px;
     height: 111px;
@@ -134,7 +147,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 40px;
-    margin-top: 280px;
+    margin-top: 50px;
 }
 
 .velos-available h2 {
