@@ -142,29 +142,60 @@ document.querySelectorAll(".day-option").forEach((btn) => {
   }
 
   function updateLiveCount() {
-    const url = `${apiUrl}?action=current`;
+  const url = `${apiUrl}?action=current`;
 
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Live-Daten:", data);
+  fetch(url)
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
+    .then((data) => {
+      console.log("Live-Daten:", data);
 
-        // Finde die Daten für den aktuell gewählten Standort
-        const stationData = data.find((row) => row.station_name === currentStation);
+      // Finde die Daten für den aktuell gewählten Standort
+      const stationData = data.find((row) => row.station_name === currentStation);
+      
+      const counterElement = document.querySelector(".counter");
+      const veloImage = document.querySelector(".velo-container img");
+      
+      if (counterElement && stationData) {
+        const count = parseInt(stationData.bike_available_to_rent) || 0;
+        counterElement.textContent = count;
         
-        const counterElement = document.querySelector(".counter");
-        if (counterElement && stationData) {
-          counterElement.textContent = stationData.bike_available_to_rent || "0";
-        }
-      })
-      .catch((err) => {
-        console.error("Live-Count-Fehler:", err);
-      });
-  }
+        // Velo-Bild basierend auf Anzahl ändern
+        updateVeloImage(count, veloImage);
+      }
+    })
+    .catch((err) => {
+      console.error("Live-Count-Fehler:", err);
+    });
+}
 
+function updateVeloImage(count, veloImage) {
+  if (!veloImage) return;
+  
+  if (count === 0) {
+    // Kein Velo anzeigen
+    veloImage.style.opacity = "0";
+    setTimeout(() => {
+      veloImage.style.display = "none";
+    }, 300); // Wartet bis Fade-out fertig ist
+  } else {
+    // Bestimme welches Velo (max 16)
+    const veloNumber = Math.min(count, 16);
+    const newSrc = `../img/velo${veloNumber}.svg`;
+    
+    // Fade out, Bild wechseln, Fade in
+    veloImage.style.opacity = "0";
+    setTimeout(() => {
+      veloImage.src = newSrc;
+      veloImage.style.display = "block";
+      setTimeout(() => {
+        veloImage.style.opacity = "1";
+      }, 50);
+    }, 300);
+  }
+}
   function updateBestTime(values) {
     console.log("Berechne beste Zeit für Werte:", values);
     

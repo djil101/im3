@@ -25,7 +25,7 @@ try {
     $pdo->beginTransaction();
 
     // Achtung: `date` zur Sicherheit escapen
-    $sql = "INSERT INTO velometer (`date`, station_name, bike_racks, bike_available_to_rent)
+    $sql = "INSERT INTO velometerChart (`date`, station_name, bike_racks, bike_available_to_rent)
             VALUES (:date, :station_name, :bike_racks, :bike_available_to_rent)";
     $stmt = $pdo->prepare($sql);
 

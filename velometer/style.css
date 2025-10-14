@@ -44,22 +44,24 @@ body {
     gap: 15px;
 }
 
-/* Velo2 Image Styles */
-.velo2-container {
+.logo {
+    width: 106px;
+    height: 111px;
+}
+
+.velo-container {
     text-align: center;
-    margin: 50px auto;
+    margin: 50px auto 30px auto;
     display: flex;
     justify-content: center;
 }
 
-.velo2-container img {
+.velo-container img {
     width: 400px;
     height: auto;
-}
-
-.logo {
-    width: 106px;
-    height: 111px;
+    display: block;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out; /* Smooth Fade */
 }
 
 .location-dropdown {
@@ -397,6 +399,10 @@ body {
         padding: 0 30px;
         align-items: center;
     }
+
+    .velo-container img {
+        width: 300px;
+    }
     
     .graph-container {
         width: 100%;
@@ -446,6 +452,10 @@ body {
         padding: 0 20px;
         gap: 30px;
     }
+
+    .statistics {
+    margin-top: 50px;
+}
     
     #velometerChart {
         height: 350px !important;
@@ -454,7 +464,10 @@ body {
     .graph {
         padding: 10px;
     }
-    
+
+    .velo-container img {
+        width: 250px;
+    }
     .location-dropdown-button {
         padding: 15px 50px;
         gap: 20px;
@@ -471,7 +484,7 @@ body {
     }
     
     .velos-available {
-        margin-top: 150px;
+        margin-top: 50px;
         gap: 20px;
     }
     
@@ -491,27 +504,27 @@ body {
     }
     
     .days-dropdown {
-        width: 90%; /* Statt 100% */
-        max-width: 350px; /* Statt 400px */
+        width: 90%;
+        max-width: 350px;
         margin-bottom: 30px;
     }
     
     .dropdown-button {
-        font-size: 28px; /* Statt 32px */
-        padding: 12px 20px; /* Statt 15px 25px */
+        font-size: 28px; 
+        padding: 12px 20px; 
     }
     
     .dropdown-content a {
-        font-size: 28px; /* Statt 32px */
-        padding: 12px 40px; /* Statt 15px 50px */
+        font-size: 28px;
+        padding: 12px 40px; 
     }
     
     .best-time h2 {
-        font-size: 28px; /* Statt 32px */
+        font-size: 28px;
     }
     
     .statistics .time-box {
-        font-size: 26px !important; /* Statt 32px */
+        font-size: 26px !important; 
         padding: 20px;
         height: auto;
         min-height: 120px;
@@ -544,6 +557,14 @@ body {
     #velometerChart {
         height: 280px !important;
     }
+
+    .velo-container img {
+        width: 200px; 
+    }
+    
+    .velo-container {
+        margin: 30px auto 20px auto;
+    }
     
     .location-dropdown-button {
         padding: 10px 30px;
@@ -561,7 +582,7 @@ body {
     }
     
     .velos-available {
-        margin-top: 150px;
+        margin-top: 50px;
         gap: 15px;
         flex-direction: column;
     }
