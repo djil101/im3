@@ -12,12 +12,17 @@
     box-sizing: border-box;
 }
 
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+}
+
 body {
     font-family: 'Josefin Slab', serif;
     font-weight: 700;
     background-color: #E5E5E5;
     min-height: 100vh;
-    overflow-x: hidden;
 }
 
 .container {
@@ -129,7 +134,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 40px;
-    margin-top: 230px;
+    margin-top: 280px;
 }
 
 .velos-available h2 {
@@ -153,7 +158,7 @@ body {
 /* Scroll Indicator */
 .scroll-indicator {
     text-align: center;
-    margin: 20px 0;
+    margin: 50px 0;
     cursor: pointer;
 }
 
@@ -176,7 +181,7 @@ body {
 
 /* Statistics Section */
 .statistics {
-    margin-top: 10px;
+    margin-top: 150px;
     text-align: center;
 }
 
@@ -342,12 +347,12 @@ body {
 .bg-bottom {
     position: absolute;
     top: 1800px;
-    left: -312px; /* Original */
-    width: 2296px; /* Original */
-    height: 500px; /* Original */
+    left: -312px;
+    width: 2296px;
+    height: 500px;
     opacity: 0.2;
     object-fit: cover;
-    z-index: -1; /* Hinzugefügt */
+    z-index: -1;
 }
 
 /* Responsive nur für bg-top */
@@ -453,7 +458,7 @@ body {
     }
     
     .velos-available {
-        margin-top: 100px;
+        margin-top: 150px;
         gap: 20px;
     }
     
@@ -473,37 +478,54 @@ body {
     }
     
     .days-dropdown {
-        width: 100%;
-        max-width: 400px;
+        width: 90%; /* Statt 100% */
+        max-width: 350px; /* Statt 400px */
         margin-bottom: 30px;
     }
     
     .dropdown-button {
-        font-size: 32px;
-        padding: 15px 25px;
+        font-size: 28px; /* Statt 32px */
+        padding: 12px 20px; /* Statt 15px 25px */
     }
     
     .dropdown-content a {
-        font-size: 32px;
-        padding: 15px 50px;
+        font-size: 28px; /* Statt 32px */
+        padding: 12px 40px; /* Statt 15px 50px */
     }
     
     .best-time h2 {
-        font-size: 32px;
+        font-size: 28px; /* Statt 32px */
     }
     
     .statistics .time-box {
-        font-size: 32px !important;
+        font-size: 26px !important; /* Statt 32px */
         padding: 20px;
         height: auto;
-        min-height: 140px;
+        min-height: 120px;
+    }
+    
+    .graph-container {
+        width: 100%;
+        max-width: 100%;
+    }
+     .bg-bottom {
+        width: 200vw;
+        height: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 1400px; /* Angepasst für Mobile */
+    }
+    
+    .bg-top {
+        min-width: 768px;
     }
 }
+
 
 /* Sehr kleine Handys */
 @media screen and (max-width: 480px) {
     .statistics-container {
-        padding: 0 15px;
+        padding:  15px;
     }
     
     #velometerChart {
@@ -526,7 +548,7 @@ body {
     }
     
     .velos-available {
-        margin-top: 80px;
+        margin-top: 150px;
         gap: 15px;
         flex-direction: column;
     }
@@ -546,33 +568,47 @@ body {
         margin-bottom: 20px;
     }
     
+    /* Dropdown noch kleiner */
     .days-dropdown {
-        width: 100%;
+        width: 95%;
+        max-width: 280px;
         margin-bottom: 20px;
     }
     
     .dropdown-button {
-        font-size: 24px;
-        padding: 12px 20px;
+        font-size: 22px; /* Statt 24px */
+        padding: 10px 15px; /* Statt 12px 20px */
     }
     
     .dropdown-content a {
-        font-size: 24px;
-        padding: 12px 30px;
+        font-size: 22px; /* Statt 24px */
+        padding: 10px 25px; /* Statt 12px 30px */
     }
     
-    .best-time {
-        font-size: 42px;
+    /* Best Time noch kleiner */
+    .best-time h2 {
+        font-size: 22px; /* Statt 24px */
     }
     
     .statistics .time-box {
-        font-size: 42px !important;
+        font-size: 20px !important; /* Statt 24px */
         padding: 15px;
-        min-height: 120px;
+        min-height: 100px;
     }
     
     .logo {
         width: 80px;
         height: 84px;
+    }
+     .bg-bottom {
+        width: 200vw;
+        height: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 1200px; 
+    }
+    
+    .bg-top {
+        min-width: 480px;
     }
 }
