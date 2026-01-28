@@ -2,4 +2,4 @@ sftp.json
 .vscode/
 .vscode/sftp.json
 .DS_Store
-.config.php
+etl-boilerplate/config.php
